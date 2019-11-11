@@ -25,6 +25,13 @@
       </div>
     </div>
 
+    <div id="search">
+      <img class="icon" src="../assets/search.svg">
+      <input type="text"
+             placeholder="Search by title, author or url..."
+             v-model="searchQuery">
+    </div>
+
     <div id="filters">
     </div>
 
@@ -55,6 +62,7 @@ export default {
   data: function () {
     return {
       activeView: 'new',
+      searchQuery: '',
       stories: {
         new: [],
         top: [],
@@ -213,9 +221,35 @@ export default {
         &.best
           transform: translate3d(128px, 0, 0)
 
+  #search
+    margin: 8px auto
+    position: relative
+    width: 384px
+
+    .icon
+      height: 20px
+      left: 10px
+      position: absolute
+      top: 8px
+
+    input
+      background: #F0F0F0
+      border: 1px solid #D0D0D0
+      border-radius: 2px
+      font-size: 14px
+      height: 32px
+      line-height: 20px
+      padding-left: 40px
+      width: calc(100% - 40px)
+
+      &::placeholder
+        color: #999
+        font-size: 14px
+
   ul.stories
     list-style: none
     margin: 0
+    padding: 0
 
     li
       border-bottom: 1px solid #D0D0D0
@@ -238,7 +272,15 @@ export default {
         display: inline-block
         width: calc(100% - 56px)
 
-      .details
-        .source
-          float: right
+        .title
+          color: #424242
+          font-weight: 500
+          margin-top: 10px
+
+        .details
+          color: #999999
+          font-size: 12px
+
+          .source
+            float: right
 </style>
