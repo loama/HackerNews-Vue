@@ -32,7 +32,7 @@
       <li v-for="story in filteredStories" v-bind:key="story.title">
         <div class="title">{{story.title}}</div>
         <div class="details">
-          <span>{{story.score}} points by {{story.by}}</span>
+          <span>{{story.score}} points by {{story.by}} {{story.minutesAgo}} minutes ago</span>
           <span class="source">{{story.urlShortened}}</span>
         </div>
       </li>
@@ -70,8 +70,21 @@ export default {
       try {
         const response = await axios.get('https://hacker-news.firebaseio.com/v0/item/' + String(id) + '.json?print=pretty')
         var story = response.data
-        var urlParts = story.url.split('/')
-        story.urlShortened = urlParts[2]
+
+        var timeSeconds = Math.round((new Date()).getTime() / 1000)
+        var storyMinutesAgo = Math.round((timeSeconds - story.time) / 60)
+
+        story.minutesAgo = storyMinutesAgo
+
+        console.log(storyMinutesAgo)
+
+        if (story.url !== undefined) {
+          var urlParts = story.url.split('/')
+          story.urlShortened = urlParts[2]
+        } else {
+          story.urlShortened = undefined
+        }
+
         this.stories.new.push(story)
       } catch (error) {
         console.error(error)
