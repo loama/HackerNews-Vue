@@ -29,74 +29,34 @@
     </div>
 
     <ul class="stories">
-      <li v-for="story in stories" v-bind:key="story.title">
-        {{story}}
+      <li v-for="story in filteredStories" v-bind:key="story.title">
+        <div class="title">{{story.title}}</div>
+        <div class="details">
+          <span>{{story.score}} points by {{story.by}}</span>
+          <span class="source">{{story.urlShortened}}</span>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
+  computed: {
+    filteredStories () {
+      return this.stories.new
+    }
+  },
   data: function () {
     return {
       activeView: 'new',
-      stories: [
-        {
-          'by': 'aminecodes',
-          'descendants': 291,
-          'id': 21137553,
-          'kids': [
-            21138653,
-            21138113,
-            21138829,
-            21138131,
-            21142749,
-            21138320,
-            21137931,
-            21139047,
-            21139160,
-            21137857,
-            21142759,
-            21139206,
-            21137889,
-            21138187,
-            21139948,
-            21137852,
-            21139110,
-            21139717,
-            21139555,
-            21138014,
-            21137814,
-            21139211,
-            21137798,
-            21139509,
-            21142998,
-            21146914,
-            21138539,
-            21140364,
-            21139839,
-            21138185,
-            21139098,
-            21138576,
-            21138580,
-            21138914,
-            21140040,
-            21139430,
-            21137996,
-            21138618,
-            21137958,
-            21137784,
-            21139786
-          ],
-          'score': 372,
-          'time': 1570030411,
-          'title': 'Microsoft introduces Windows 10 X for dual-screen devices',
-          'type': 'story',
-          'url': 'https://techcrunch.com/2019/10/02/microsoft-introduces-windows-10-x-for-dual-screen-devices/'
-        }
-      ]
+      stories: {
+        new: [],
+        top: [],
+        best: []
+      }
     }
   },
   name: 'home',
@@ -105,9 +65,33 @@ export default {
   methods: {
     selectView (view) {
       this.activeView = view
+    },
+    getStory: async function (id) {
+      try {
+        const response = await axios.get('https://hacker-news.firebaseio.com/v0/item/' + String(id) + '.json?print=pretty')
+        var story = response.data
+        var urlParts = story.url.split('/')
+        story.urlShortened = urlParts[2]
+        this.stories.new.push(story)
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
-  mounted () {}
+  mounted () {
+    var self = this
+    axios.get('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
+      .then(function (response) {
+        // handle success
+        for (let i = 0; i < 10/* response.data.length */; i++) {
+          self.getStory(response.data[i])
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error)
+      })
+  }
 }
 </script>
 
@@ -181,4 +165,12 @@ export default {
     li
       border-bottom: 1px solid #D0D0D0
       list-style: none
+
+      &:hover
+        background: #F0F0F0
+        cursor: pointer
+
+      .details
+        .source
+          float: right
 </style>
