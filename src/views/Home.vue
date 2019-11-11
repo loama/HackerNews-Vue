@@ -29,11 +29,14 @@
     </div>
 
     <ul class="stories">
-      <li v-for="story in filteredStories" v-bind:key="story.title">
-        <div class="title">{{story.title}}</div>
-        <div class="details">
-          <span>{{story.score}} points by {{story.by}} {{story.minutesAgo}} minutes ago</span>
-          <span class="source">{{story.urlShortened}}</span>
+      <li v-for="(story, n) in filteredStories" v-bind:key="story.title">
+        <div class="storyNumber">{{n + 1}}</div>
+        <div class="story">
+          <div class="title">{{story.title}}</div>
+          <div class="details">
+            <span>{{story.score}} points by {{story.by}} {{story.minutesAgo}} minutes ago</span>
+            <span class="source">{{story.urlShortened}}</span>
+          </div>
         </div>
       </li>
     </ul>
@@ -76,7 +79,7 @@ export default {
 
         story.minutesAgo = storyMinutesAgo
 
-        console.log(storyMinutesAgo)
+        // console.log(storyMinutesAgo)
 
         if (story.url !== undefined) {
           var urlParts = story.url.split('/')
@@ -216,11 +219,24 @@ export default {
 
     li
       border-bottom: 1px solid #D0D0D0
+      box-sizing: content-box
       list-style: none
 
       &:hover
         background: #F0F0F0
         cursor: pointer
+
+      .storyNumber
+        display: inline-block
+        height: 55px
+        line-height: 55px
+        text-align: center
+        vertical-align: top
+        width: 40px
+
+      .story
+        display: inline-block
+        width: calc(100% - 56px)
 
       .details
         .source
