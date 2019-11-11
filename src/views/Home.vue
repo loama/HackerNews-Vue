@@ -46,7 +46,7 @@ import axios from 'axios'
 export default {
   computed: {
     filteredStories () {
-      return this.stories.new
+      return this.stories[this.activeView]
     }
   },
   data: function () {
@@ -66,7 +66,7 @@ export default {
     selectView (view) {
       this.activeView = view
     },
-    getStory: async function (id) {
+    getStory: async function (id, section) {
       try {
         const response = await axios.get('https://hacker-news.firebaseio.com/v0/item/' + String(id) + '.json?print=pretty')
         var story = response.data
@@ -85,7 +85,19 @@ export default {
           story.urlShortened = undefined
         }
 
-        this.stories.new.push(story)
+        switch (section) {
+          case 'newstories':
+            this.stories.new.push(story)
+            break
+
+          case 'topstories':
+            this.stories.top.push(story)
+            break
+
+          case 'beststories':
+            this.stories.best.push(story)
+            break
+        }
       } catch (error) {
         console.error(error)
       }
@@ -93,11 +105,38 @@ export default {
   },
   mounted () {
     var self = this
-    axios.get('https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
+
+    // var origins = ['newstories', 'topstories', 'beststories']
+
+    axios.get('https://hacker-news.firebaseio.com/v0/' + 'newstories' + '.json?print=pretty')
       .then(function (response) {
         // handle success
-        for (let i = 0; i < 10/* response.data.length */; i++) {
-          self.getStory(response.data[i])
+        for (let j = 0; j < 10/* response.data.length */; j++) {
+          self.getStory(response.data[j], 'newstories')
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error)
+      })
+
+    axios.get('https://hacker-news.firebaseio.com/v0/' + 'topstories' + '.json?print=pretty')
+      .then(function (response) {
+        // handle success
+        for (let j = 0; j < 10/* response.data.length */; j++) {
+          self.getStory(response.data[j], 'topstories')
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error)
+      })
+
+    axios.get('https://hacker-news.firebaseio.com/v0/' + 'beststories' + '.json?print=pretty')
+      .then(function (response) {
+        // handle success
+        for (let j = 0; j < 10/* response.data.length */; j++) {
+          self.getStory(response.data[j], 'beststories')
         }
       })
       .catch(function (error) {
