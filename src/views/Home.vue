@@ -36,7 +36,10 @@
     </div>
 
     <ul class="stories">
-      <li v-for="(story, n) in filteredStories" v-bind:key="story.title">
+      <a :href="story.url"
+         target="_blank"
+         v-for="(story, n) in filteredStories"
+         v-bind:key="story.title">
         <div class="storyNumber">{{n + 1}}</div>
         <div class="story">
           <div class="title">{{story.title}}</div>
@@ -45,7 +48,7 @@
             <span class="source">{{story.urlShortened}}</span>
           </div>
         </div>
-      </li>
+      </a>
     </ul>
   </div>
 </template>
@@ -56,7 +59,22 @@ import axios from 'axios'
 export default {
   computed: {
     filteredStories () {
-      return this.stories[this.activeView]
+      var currentStories = this.stories[this.activeView]
+
+      var storiesFiltered = []
+      // search
+      for (var i = 0; i < currentStories.length; i++) {
+        var hasTitle = currentStories[i].title.toLowerCase().indexOf(this.searchQuery.toLowerCase()) !== -1
+        var hasAuthor = currentStories[i].by.toLowerCase().indexOf(this.searchQuery.toLowerCase()) !== -1
+
+        var hasUrl = currentStories[i].urlShortened.toLowerCase().indexOf(this.searchQuery.toLowerCase()) !== -1
+
+        if (hasTitle || hasAuthor || hasUrl) {
+          storiesFiltered.push(currentStories[i])
+        }
+      }
+
+      return storiesFiltered
     }
   },
   data: function () {
@@ -93,7 +111,8 @@ export default {
           var urlParts = story.url.split('/')
           story.urlShortened = urlParts[2]
         } else {
-          story.urlShortened = undefined
+          story.url = 'https://news.ycombinator.com/item?id=' + String(story.id)
+          story.urlShortened = 'news.ycombinator.com'
         }
 
         switch (section) {
@@ -122,7 +141,7 @@ export default {
     axios.get('https://hacker-news.firebaseio.com/v0/' + 'newstories' + '.json?print=pretty')
       .then(function (response) {
         // handle success
-        for (let j = 0; j < 10/* response.data.length */; j++) {
+        for (let j = 0; j < 30/* response.data.length */; j++) {
           self.getStory(response.data[j], 'newstories')
         }
       })
@@ -171,6 +190,7 @@ export default {
     position: fixed
     top: 0
     width: 100vw
+    z-index: 10
 
     .logo
       display: inline-block
@@ -251,9 +271,11 @@ export default {
     margin: 0
     padding: 0
 
-    li
+    a
       border-bottom: 1px solid #D0D0D0
       box-sizing: content-box
+      color: #424242
+      display: block
       list-style: none
 
       &:hover
