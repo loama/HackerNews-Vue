@@ -1,4 +1,6 @@
-# hacker_news-vue
+# HackerNews Vue [![Build Status](https://travis-ci.org/loama/HackerNews-Vue.svg?branch=master)](https://travis-ci.org/loama/HackerNews-Vue)
+
+This is a HackerNews FrontEnd built using Vue CLI 3 and the [Hacker News API](https://github.com/HackerNews/API)
 
 ## Project setup
 ```
@@ -15,25 +17,6 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

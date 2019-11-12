@@ -16,10 +16,9 @@ install:
 
 # - if [ $TRAVIS_PULL_REQUEST == "true" ]; then echo "this is a Pull Request" fi
 
-- npm run build
-
 script:
 # - npm run test:e2e
+- npm run build
 
 deploy:
 - provider: firebase
