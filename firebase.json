@@ -1,0 +1,42 @@
+{
+  "hosting": {
+    "headers": [ {
+      "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=7200000"
+      } ]
+    }, {
+      "source": "**/*.@(jpg|jpeg|gif|png|webp)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=7200000"
+      } ]
+    }, {
+      "source": "**/*.@(css|js)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=7200000"
+      } ]
+    }, {
+      // Sets the cache header for html pages to cache for 30 seconds
+      "source": "**/*.@(html|ico)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "no-cache"
+      } ]
+    } ],
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

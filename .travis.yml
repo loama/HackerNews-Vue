@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+  - "10.12.0"
+
+before_install:
+  # - export CHROME_BIN=/usr/bin/google-chrome
+  # - export DISPLAY=:99.0
+  # - sh -e /etc/init.d/xvfb start
+  # - sudo apt-get update
+  # - sudo apt-get install -y libappindicator1 fonts-liberation
+  # - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  # - sudo dpkg -i google-chrome*.deb
+
+install:
+- npm install
+
+# - if [ $TRAVIS_PULL_REQUEST == "true" ]; then echo "this is a Pull Request" fi
+
+- npm run build
+
+script:
+# - npm run test:e2e
+
+deploy:
+- provider: firebase
+  project: "hackernews-303ba"
+  skip_cleanup: true
+  token:
+    secure: "cmZ6bBnpNuJw+lCzA2QGc7njQd3OicDM2voUxfzz48Eg8V106CFBjFQB0XDcCk2udrkuLbZreQpNTzLSyIZd8I4yPOSw9d/iCkj32snXl/LGmea7RT8HzsiQLS2Anyy1/r0xXX1Tk7sBeWVpORDlhzoMUywJhxhlWM7tPilOmSNhPUP4zWoT3lMkr7jnQyRzSR+WyJPH6r5uA2/1H3P5Ff1ZtABnandIVcWHcqSB5THE2Lpxzf/Bz0w1gfR3MdvbUTGCdhlt5HzIL2i8BxrmGkSFaBR/V6m8FmcC5b92gStLNfZto4/mY9UPd3fWKT85N7HVFMFxyf/eeGvWWAmgT+FwVxsFwpLqKqpXDkyfkySdx/W/kJbXr+eiRIOaAcQWbPBBUbJSbaoBcp1OcO4bXVAepZPinCcc+9yyoiUz0xfRmnH1ixGqsJq7Sc1blgBofusEW4ITXF2k2UkkrOgjH1RHC/FSYOe72X5K+iY2TSrs3VfOz9X1s4C7nR444ii5RrCdLWUHQgnvY/weIwvzXB9nuK7RP3lE6bCjk7uvKsO6f6tVUhNaytntVCVU6gaajlQrb7Tfsii69wH0qRYbfzj3lbbAIapucYsfWDrlfcFoWXd51UoUS++sglkgJ+U4VC8jc4b8LViOH+Hl6bnTAm8O6lBKqu/z+6l7/pgTPyI="
+  on:
+    branch: master
+
+#- provider: firebase
+#  project: "hackernews-qa"
+#  skip_cleanup: true
+#  token:
+#    secure: "cmZ6bBnpNuJw+lCzA2QGc7njQd3OicDM2voUxfzz48Eg8V106CFBjFQB0XDcCk2udrkuLbZreQpNTzLSyIZd8I4yPOSw9d/iCkj32snXl/LGmea7RT8HzsiQLS2Anyy1/r0xXX1Tk7sBeWVpORDlhzoMUywJhxhlWM7tPilOmSNhPUP4zWoT3lMkr7jnQyRzSR+WyJPH6r5uA2/1H3P5Ff1ZtABnandIVcWHcqSB5THE2Lpxzf/Bz0w1gfR3MdvbUTGCdhlt5HzIL2i8BxrmGkSFaBR/V6m8FmcC5b92gStLNfZto4/mY9UPd3fWKT85N7HVFMFxyf/eeGvWWAmgT+FwVxsFwpLqKqpXDkyfkySdx/W/kJbXr+eiRIOaAcQWbPBBUbJSbaoBcp1OcO4bXVAepZPinCcc+9yyoiUz0xfRmnH1ixGqsJq7Sc1blgBofusEW4ITXF2k2UkkrOgjH1RHC/FSYOe72X5K+iY2TSrs3VfOz9X1s4C7nR444ii5RrCdLWUHQgnvY/weIwvzXB9nuK7RP3lE6bCjk7uvKsO6f6tVUhNaytntVCVU6gaajlQrb7Tfsii69wH0qRYbfzj3lbbAIapucYsfWDrlfcFoWXd51UoUS++sglkgJ+U4VC8jc4b8LViOH+Hl6bnTAm8O6lBKqu/z+6l7/pgTPyI="
+#  on:
+#    branch: develop

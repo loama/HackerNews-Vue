@@ -235,7 +235,7 @@ export default {
             break
         }
       } catch (error) {
-        console.error(error)
+        // console.error(error)
       }
     },
     moveOrdering (ordering) {
@@ -262,7 +262,8 @@ export default {
       })
       .catch(function (error) {
         // handle error
-        console.log(error)
+        alert('we had an error with hn api', error)
+        // console.log(error)
       })
 
     axios.get('https://hacker-news.firebaseio.com/v0/' + 'topstories' + '.json?print=pretty')
@@ -274,7 +275,7 @@ export default {
       })
       .catch(function (error) {
         // handle error
-        console.log(error)
+        alert('we had an error with hn api', error)
       })
 
     axios.get('https://hacker-news.firebaseio.com/v0/' + 'beststories' + '.json?print=pretty')
@@ -286,7 +287,7 @@ export default {
       })
       .catch(function (error) {
         // handle error
-        console.log(error)
+        alert('we had an error with hn api', error)
       })
   }
 }
